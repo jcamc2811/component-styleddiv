@@ -84,11 +84,14 @@ export function includeAllDefaultFonts(old: any, minFont: any = 2, maxFont: any 
 };
 
 export function createDynamicClass(name: string, styleCss: any) {
-    let element = document.getElementsByTagName("style")[0];
-    if (element === undefined)
-        return
-    
-    console.log(styleCss);
+    let element = document.getElementById("divstyled-id");
+
+    if (element === undefined || element === null){
+        element = document.createElement("style");
+        element.id = "divstyled-id";
+        document.getElementsByTagName("head")[0].appendChild(element);
+        element = document.getElementById("divstyled-id");        
+    };
 
     let css = "\n." + name;
     css += " {";
@@ -101,6 +104,6 @@ export function createDynamicClass(name: string, styleCss: any) {
     css += "\n    font-size:"        + setNaN(styleCss.fontSize)         + ";";
     css += "\n }"; 
 
-    if(!element.innerHTML.includes(css))
+    if(element !== undefined && element !== null && !element.innerHTML.includes(css))
         element.innerHTML += css;
 };
